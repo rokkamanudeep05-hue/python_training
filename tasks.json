@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "title": "python basics",
+        "completed": false
+    },
+    {
+        "id": 2,
+        "title": "core python",
+        "completed": false
+    },
+    {
+        "id": 3,
+        "title": "functions and loops",
+        "completed": false
+    },
+    {
+        "id": 4,
+        "title": "files and modules",
+        "completed": false
+    },
+    {
+        "id": 5,
+        "title": "week 1 complete",
+        "completed": false
+    },
+    {
+        "id": 6,
+        "title": "oops",
+        "completed": false
+    }
+]
