@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 class TaskManager:
-    def __init__(self, file_path=None):
+    def __init__(self, file_path=None): 
         if file_path is None:
             file_path = Path(__file__).with_name("tasks.json")
 
