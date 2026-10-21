@@ -1,10 +1,9 @@
 
-import json
 import tempfile
 import unittest
 from pathlib import Path
 
-from tracker import TaskManager
+from tracker_manager import TaskManager
 
 
 class TestTaskManager(unittest.TestCase):
@@ -57,10 +56,26 @@ class TestTaskManager(unittest.TestCase):
         )
 
     def test_invalid_json_is_rejected(self):
-        self.file_path.write_text("{invalid json", encoding="utf-8")
+        self.file_path.write_text(
+            "{invalid json",
+            encoding="utf-8"
+        )
 
         with self.assertRaises(ValueError):
             TaskManager(self.file_path)
+
+    # New test 8: Reject task ID zero
+    def test_invalid_task_id_is_rejected(self):
+        with self.assertRaises(ValueError):
+            self.manager.complete_task(0)
+
+    # New test 9: Check that task IDs increase
+    def test_task_ids_increase(self):
+        first = self.manager.add_task("Task one")
+        second = self.manager.add_task("Task two")
+
+        self.assertEqual(first["id"], 1)
+        self.assertEqual(second["id"], 2)
 
 
 if __name__ == "__main__":

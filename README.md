@@ -33,7 +33,7 @@ Run the Project
 
  ## week 2 
 
- 
+ ## day1
 # Python Task Tracker
 
 A command-line task tracker using
@@ -76,3 +76,5 @@ No external packages are required.
 4. Enter an empty title and verify it is rejected.
 5. Enter an unknown task ID and verify an error is reported.
 6. Run all unit tests and verify they pass.
+
+## day 2 
