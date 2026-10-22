@@ -40,7 +40,7 @@ A command-line task tracker using
 Python collections and JSON file persistence.
 
 ## Requirements
-- Python 3.10 or newer
+- Python 3.15
 - Visual Studio Code
 
 ## Setup
@@ -61,7 +61,7 @@ No external packages are required.
 
 ## Run unit tests
 
-    python -m unittest test_tracker -v
+    python test_tracker -v
 
 ## Features
 - Add, view, complete, and delete tasks
@@ -78,3 +78,45 @@ No external packages are required.
 6. Run all unit tests and verify they pass.
 
 ## day 2 
+# Python Task Tracker
+
+## Overview
+A command-line application built with Python to add, view, complete, and delete tasks. Tasks are saved in a JSON file.
+
+## Project Structure
+- `main.py` – Handles the menu and user input.
+- `task_manager.py` – Manages task operations and JSON storage.
+- `tasks.json` – Stores task records.
+- `test_tracker.py` – Contains unit tests.
+
+## Features
+- Add, view, complete, and delete tasks.
+- Save and load tasks using JSON.
+- Validate task titles and IDs.
+- Handle invalid JSON.
+- Use type hints and modular code.
+
+## Requirements
+- Python 3.15 or later.
+- No external packages required.
+
+## Run the Application
+
+python main.py
+```
+
+## Run Tests
+
+python  test_tracker.py
+```
+
+Tests cover task operations, file persistence, and invalid inputs.
+
+## Concepts Used
+- Functions and modules
+- Dictionaries and type hints
+- JSON persistence
+- Exception handling
+- Unit testing
+
+
