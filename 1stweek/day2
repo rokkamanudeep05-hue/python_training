@@ -1,0 +1,308 @@
+# Day 2 — Core Python
+
+**Training Date:** Tuesday, 13 October 2026  
+**Topic:** Python Data Types, Collections, Mutability, and Basic Operations
+
+## 1. Objective
+
+The objective of Day 2 is to understand Python's fundamental data types and collection data structures. Practice basic operations on strings, numbers, booleans, lists, tuples, sets, and dictionaries. Learn the difference between mutable and immutable objects and solve small programming exercises.
+
+## 2. Topics Covered
+
+- Strings
+- Numbers (`int`, `float`, `complex`)
+- Booleans (`True`, `False`)
+- Lists
+- Tuples
+- Sets
+- Dictionaries
+- Mutable and immutable objects
+- Common collection operations
+- Basic Python exercises
+
+## 3. Python Data Types
+
+### 3.1 Strings
+
+Strings represent text and are created using single or double quotes.
+
+```python
+name = "Python"
+message = "Welcome to Python training"
+
+print(name)
+print(name.upper())
+print(name.lower())
+print(len(name))
+print(name[0])
+```
+
+**Key points:**
+- Strings are immutable.
+- Indexing starts at `0`.
+- Common operations include slicing, concatenation, and searching.
+
+### 3.2 Numbers
+
+Python supports integers, floating-point numbers, and complex numbers.
+
+```python
+age = 22
+price = 99.50
+number = 2 + 3j
+
+print(age + 5)
+print(price * 2)
+print(type(number))
+```
+
+**Key points:**
+- `int` represents whole numbers.
+- `float` represents decimal numbers.
+- `complex` represents numbers with real and imaginary parts.
+
+### 3.3 Booleans
+
+Booleans represent logical values: `True` and `False`.
+
+```python
+age = 22
+
+print(age >= 18)
+print(age < 18)
+print(True and False)
+print(True or False)
+```
+
+Booleans are commonly used in conditions and decision-making.
+
+## 4. Python Collections
+
+### 4.1 List
+
+A list stores multiple items in an ordered, mutable collection. Duplicate values are allowed.
+
+```python
+languages = ["Python", "Java", "SQL"]
+
+languages.append("JavaScript")
+languages[0] = "Core Python"
+languages.remove("Java")
+
+print(languages)
+print(len(languages))
+```
+
+Common operations:
+- `append()` — adds an item.
+- `insert()` — inserts an item at a specific position.
+- `remove()` — removes a matching value.
+- `pop()` — removes and returns an item.
+- `sort()` — sorts the list.
+
+### 4.2 Tuple
+
+A tuple stores multiple items in an ordered, immutable collection.
+
+```python
+coordinates = (10, 20, 30)
+
+print(coordinates[0])
+print(len(coordinates))
+print(coordinates.count(10))
+print(coordinates.index(20))
+```
+
+**Key point:** Individual tuple elements cannot be reassigned after the tuple is created.
+
+### 4.3 Set
+
+A set stores unique values and does not guarantee a particular iteration order.
+
+```python
+numbers = {10, 20, 30, 20}
+
+numbers.add(40)
+numbers.discard(10)
+
+print(numbers)
+print(20 in numbers)
+```
+
+Common operations:
+- `add()` — adds an element.
+- `remove()` — removes an element and raises `KeyError` if it is missing.
+- `discard()` — removes an element without raising an error if it is missing.
+- `union()` — combines unique elements.
+- `intersection()` — finds common elements.
+
+### 4.4 Dictionary
+
+A dictionary stores data as key-value pairs. Dictionaries are mutable, and keys must be unique and hashable.
+
+```python
+student = {
+    "name": "Anudeep",
+    "course": "Python",
+    "day": 2
+}
+
+student["day"] = 3
+student["status"] = "In Progress"
+
+print(student["name"])
+print(student.get("course"))
+print(student.keys())
+print(student.values())
+print(student.items())
+```
+
+Common operations:
+- `get()` — retrieves a value safely when a key may be missing.
+- `keys()` — returns the dictionary's keys.
+- `values()` — returns its values.
+- `items()` — returns key-value pairs.
+- `update()` — adds or updates entries.
+- `pop()` — removes an entry by key.
+
+## 5. Mutable vs. Immutable Objects
+
+**Mutable objects** can be changed after creation. **Immutable objects** cannot have their contents changed after creation.
+
+| Data type | Mutable? | Example |
+|---|---|---|
+| `str` | No | `"Python"` |
+| `int` | No | `100` |
+| `float` | No | `10.5` |
+| `bool` | No | `True` |
+| `list` | Yes | `[1, 2, 3]` |
+| `tuple` | No | `(1, 2, 3)` |
+| `set` | Yes | `{1, 2, 3}` |
+| `dict` | Yes | `{"name": "Anudeep"}` |
+
+### Example: Mutability
+
+```python
+numbers = [10, 20, 30]
+numbers.append(40)
+
+print(numbers)
+```
+
+Output:
+
+```text
+[10, 20, 30, 40]
+```
+
+The list changes because lists are mutable.
+
+```python
+name = "Python"
+name = name + " Training"
+
+print(name)
+```
+
+Output:
+
+```text
+Python Training
+```
+
+The original string was not modified. A new string was created and assigned to `name`.
+
+## 6. Small Programming Exercises
+
+### Exercise 1: String Operations
+
+Create a string and print its length, uppercase version, and first character.
+
+### Exercise 2: Number Operations
+
+Create two numbers and calculate their sum, difference, product, and quotient.
+
+### Exercise 3: List Operations
+
+Create a list of five programming languages. Add a new language, remove one, and print the updated list.
+
+### Exercise 4: Tuple Operations
+
+Create a tuple of five numbers. Print its first element, last element, and length.
+
+### Exercise 5: Set Operations
+
+Create two sets of numbers. Find their union, intersection, and difference.
+
+### Exercise 6: Dictionary Operations
+
+Create a student dictionary with name, course, and score. Update the score and add a status field.
+
+### Exercise 7: Mutability
+
+Create a list and a string. Modify the list and reassign the string. Explain why the operations behave differently.
+
+### Exercise 8: Remove Duplicates
+
+Given the list:
+
+```python
+numbers = [1, 2, 2, 3, 4, 4, 5]
+```
+
+Create a collection containing only unique values.
+
+## 7. Sample Integrated Exercise
+
+Create a program that stores student information and subjects using Python collections.
+
+```python
+student = {
+    "name": "Anudeep",
+    "subjects": ["Python", "SQL", "Git"],
+    "active": True
+}
+
+student["subjects"].append("Testing")
+student["active"] = False
+
+print("Student:", student["name"])
+print("Subjects:", student["subjects"])
+print("Active:", student["active"])
+```
+
+This exercise demonstrates strings, lists, dictionaries, booleans, indexing, updating values, and mutable collections.
+
+## 8. How to Run the Exercises
+
+1. Open the Python training folder in VS Code.
+2. Create a file named `day2_core_python.py`.
+3. Write the exercise code in the file.
+4. Save the file using `Ctrl + S`.
+5. Open the integrated terminal.
+6. Run the program:
+
+```bash
+python day2_core_python.py
+```
+
+7. Check the output and correct any errors.
+8. Repeat the exercises without copying the examples.
+
+## 9.  Outcomes
+
+After completing Day 2, I should be able to:
+
+- Identify Python's fundamental data types.
+- Create and manipulate strings and numbers.
+- Use booleans in logical expressions.
+- Perform common operations on lists, tuples, sets, and dictionaries.
+- Explain the difference between mutable and immutable objects.
+- Choose appropriate collections for different requirements.
+- Write and execute small Python programs independently.
+
+
+
+
+
+

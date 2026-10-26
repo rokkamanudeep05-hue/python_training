@@ -1,0 +1,356 @@
+# Day 5 — Mini-Project
+**Training Date:** Friday, 16 October 2026  
+**Topic:** Command-Line Task Tracker Using Python, Collections, JSON, and Unit Testing
+
+## 1. Objective
+
+The objective of Day 5 is to apply the Python concepts learned during Days 1–4 to build a functional command-line application.
+
+The application should allow users to add, view, complete, delete, and filter tasks. It should store tasks in a JSON file so that data remains available after the program exits.
+
+The project also demonstrates input validation, exception handling, modular code organization, unit testing, and documentation.
+
+## 2. Project Overview
+
+**Project Name:** Command-Line Task Tracker
+
+**Description:**
+
+The Command-Line Task Tracker is a Python application that helps users manage daily tasks through a terminal interface. It uses Python collections to manage task data and JSON file storage to preserve tasks between program executions.
+
+The project applies core Python programming concepts to a practical data management problem.
+
+## 3. Technologies Used
+
+- **Python 3:** Application development.
+- **Lists and dictionaries:** Store and organize task records.
+- **JSON:** Persist task data between executions.
+- **Pathlib:** Manage file paths.
+- **Exception handling:** Handle invalid inputs and file errors.
+- **Unittest / pytest:** Verify application behavior.
+- **Git and GitHub:** Track and review source code.
+- **VS Code:** Write and execute the program.
+
+## 4. Functional Requirements
+
+The application should support the following operations.
+
+### 4.1 Add a Task
+
+The user enters a task title. The application validates the title and stores a new task with a unique ID and pending status.
+
+Example:
+
+```text
+Enter task title: Learn Python
+Task added successfully.
+```
+
+### 4.2 View All Tasks
+
+Display all stored tasks with their IDs, titles, and statuses.
+
+```text
+ID: 1 | Title: Learn Python | Status: pending
+ID: 2 | Title: Practice functions | Status: completed
+```
+
+### 4.3 Complete a Task
+
+The user provides a task ID. The application updates the corresponding task's status to `completed`.
+
+```text
+Enter task ID: 1
+Task marked as completed.
+```
+
+### 4.4 Delete a Task
+
+The user provides a task ID. The application removes the matching task after validating the ID.
+
+```text
+Enter task ID: 2
+Task deleted successfully.
+```
+
+### 4.5 Filter Tasks
+
+The application displays tasks matching a selected status, such as `pending` or `completed`.
+
+Filtering should return only matching tasks without accidentally modifying the original task list.
+
+## 5. Recommended Project Structure
+
+```text
+Day-5-Task-Tracker/
+├── README.md
+├── main.py
+├── tracker.py
+├── tasks.json
+├── test_tracker.py
+├── requirements.txt
+└── .gitignore
+```
+
+**File descriptions:**
+
+- `main.py` — Provides the command-line menu and accepts user input.
+- `tracker.py` — Contains the `TaskManager` class and task management logic.
+- `tasks.json` — Stores task records persistently.
+- `test_tracker.py` — Contains unit tests for the task management logic.
+- `requirements.txt` — Lists external package dependencies, if any.
+- `.gitignore` — Excludes the virtual environment, Python cache files, and other unnecessary files.
+- `README.md` — Documents the project, setup, usage, and testing instructions.
+
+## 6. Task Data Structure
+
+Each task is stored as a dictionary. The application maintains a list of task dictionaries.
+
+Example:
+
+```python
+tasks = [
+    {
+        "id": 1,
+        "title": "Learn Python",
+        "status": "pending"
+    },
+    {
+        "id": 2,
+        "title": "Practice functions",
+        "status": "completed"
+    }
+]
+```
+
+**Why use a list of dictionaries?**
+
+- A list stores multiple tasks.
+- Each dictionary stores the details of one task.
+- The task ID identifies the task.
+- The title describes the task.
+- The status indicates whether the task is pending or completed.
+
+## 7. File Persistence Using JSON
+
+File persistence means saving data so it remains available after the program closes.
+
+The application uses Python's built-in `json` module.
+
+### Saving Tasks
+
+```python
+import json
+from pathlib import Path
+
+file_path = Path("tasks.json")
+
+with file_path.open("w", encoding="utf-8") as file:
+    json.dump(tasks, file, indent=4)
+```
+
+### Loading Tasks
+
+```python
+import json
+from pathlib import Path
+
+file_path = Path("tasks.json")
+
+with file_path.open("r", encoding="utf-8") as file:
+    tasks = json.load(file)
+```
+
+In the completed application, file operations should also handle missing files and malformed JSON according to documented recovery rules.
+
+For example, a missing file can initialize an empty task list. A malformed file should produce a clear error rather than silently destroying existing data.
+
+## 8. Input Validation and Error Handling
+
+Input validation ensures that user input meets the application's requirements before processing it.
+
+The application should handle these cases:
+
+- Empty or whitespace-only task titles.
+- Non-numeric task IDs.
+- IDs that do not correspond to existing tasks.
+- Invalid task status filters.
+- Missing JSON files.
+- Malformed JSON data.
+- File read or write errors.
+
+### Example: Validating a Task Title
+
+```python
+def validate_title(title: str) -> str:
+    if not isinstance(title, str):
+        raise TypeError("Task title must be a string")
+
+    if not title.strip():
+        raise ValueError("Task title cannot be empty")
+
+    return title.strip()
+```
+
+**Explanation:**
+
+- `isinstance()` checks the input type.
+- `strip()` removes leading and trailing whitespace.
+- `ValueError` indicates that the supplied title is invalid.
+- Returning the cleaned title ensures that unnecessary spaces are not stored.
+
+The command-line interface should catch expected validation exceptions and display helpful messages to the user.
+
+## 9. Unit Testing
+
+Unit testing verifies that individual functions or methods behave as expected.
+
+The project should include tests for successful operations and invalid cases.
+
+### Required Test Cases
+
+| Test case | Expected result |
+|---|---|
+| Add a valid task | Task is stored successfully. |
+| Add an empty title | A validation error is raised. |
+| Complete an existing task | Status changes to `completed`. |
+| Delete an existing task | Task is removed. |
+| Use an unknown task ID | A meaningful error is raised. |
+| Filter pending tasks | Only pending tasks are returned. |
+| Load a missing JSON file | The documented initialization behavior occurs. |
+| Load malformed JSON | The error is handled as documented. |
+
+
+The tests use a temporary directory to isolate test data from the real `tasks.json` file.
+
+## 10. Running the Application
+
+### Step 1: Open the Project
+
+Open the `Day-5-Task-Tracker` folder in VS Code.
+
+### Step 2: Activate the Virtual Environment
+
+On Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+If the virtual environment is stored in the parent folder, activate it using the appropriate relative path.
+
+### Step 3: Run the Application
+
+```bash
+python main.py
+```
+
+The application should display a menu similar to:
+
+```text
+===== TASK TRACKER =====
+1. Add Task
+2. View Tasks
+3. Complete Task
+4. Delete Task
+5. Filter Tasks
+6. Exit
+
+Enter your choice:
+```
+
+### Step 4: Perform a Functional Check
+
+1. Add a task named `Learn Python`.
+2. View all tasks and verify that it appears.
+3. Complete the task using its ID.
+4. Filter tasks by `completed`.
+5. Exit the program.
+6. Restart the application and verify that the task is still saved.
+7. Try adding an empty task and entering an invalid task ID.
+
+## 11. Running the Tests
+
+If the project uses Python's built-in `unittest` framework, run:
+
+```bash
+python -m unittest -v
+```
+
+If the project uses pytest, install it in the active virtual environment if necessary:
+
+```bash
+python -m pip install pytest
+```
+
+Then execute:
+
+```bash
+python -m pytest -v
+```
+
+The test results should identify passing tests and provide details about any failures.
+
+## 12. Git and GitHub Workflow
+
+Check the project changes:
+
+```bash
+git status
+```
+
+Stage the project files:
+
+```bash
+git add README.md main.py tracker.py test_tracker.py requirements.txt .gitignore
+```
+
+Commit the changes:
+
+```bash
+git commit -m "Complete Day 5 command-line task tracker"
+```
+
+Push the changes:
+
+```bash
+git push
+```
+
+If `tasks.json` contains personal or sensitive data, do not commit it. Use a safe sample JSON file instead.
+
+## 13. Verification Checklist
+
+### Application functionality
+ Add tasks successfully.
+ View all tasks.
+ Complete tasks.
+ Delete tasks.
+ Filter tasks by status.
+ Save task data to JSON.
+ Reload saved tasks after restarting the application.
+
+### Validation and error handling
+Reject empty task titles.
+ Handle invalid task IDs.
+ Handle invalid menu choices.
+ Handle missing JSON files.
+ Handle malformed JSON.
+ Display clear error messages.
+
+
+
+## 14.  Outcomes
+
+After completing Day 5, I should be able to:
+
+- Build a working command-line application in Python.
+- Use lists and dictionaries to manage records.
+- Save and load structured data using JSON.
+- Validate input and handle exceptions.
+- Organize code into separate modules.
+- Write unit tests for success and failure cases.
+- Verify data persistence across application restarts.
+- Document the setup, execution, testing, and recovery process.
+- Use Git and GitHub to maintain a reviewable project.
+

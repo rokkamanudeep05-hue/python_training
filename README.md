@@ -167,3 +167,112 @@ JSON file. In-memory changes are applied only after saving succeeds.
 - Malformed JSON is reported, but automatic data recovery is not supported.
 - Temporary-file replacement reduces the risk of partial writes but
   cannot protect against every hardware or filesystem failure.
+
+  ## day 4 -- 22/10/2026
+
+  
+# Python Task Tracker – Unit Testing
+
+## 1. Overview
+This project implements a Python Task Tracker with JSON-based data persistence. Unit testing is used to verify application functionality, input validation, and error handling.
+
+## 2. Technologies Used
+- Python 3
+- Pytest
+- Unittest
+- JSON
+- Git and GitHub
+- Visual Studio Code
+
+## 3. Project Structure
+
+```text
+task-tracker/
+├── tracker.py
+├── test_tracker.py
+├── tasks.json
+└── README.md
+```
+
+## 4. Installation and Setup
+
+### Step 1: Verify Python
+```bash
+python --version
+```
+
+### Step 2: Install Pytest
+```bash
+python -m pip install pytest
+```
+
+### Step 3: Verify Pytest
+```bash
+python -m pytest --version
+```
+
+## 5. Unit Testing
+
+The test suite checks the following functionality:
+
+- Task creation and persistence
+- Empty and invalid task titles
+- Title whitespace handling
+- Task completion and deletion
+- Invalid and unknown task IDs
+- Corrupt JSON data
+- Invalid JSON structure
+- Duplicate task IDs
+- Invalid task records
+
+## 6. Run the Tests
+
+Run all tests with detailed output:
+
+```bash
+python -m pytest test_tracker.py -v
+```
+
+Run an individual test:
+
+```bash
+python -m pytest test_tracker.py::TestTaskManager::test_add_task -v
+```
+
+## 7. Expected Results
+
+- `PASSED`: The test behaved as expected.
+- `FAILED`: The test did not behave as expected and requires investigation.
+
+The test suite is designed to contain 14 test cases. Confirm the actual results by running pytest.
+
+## 8. Git Workflow
+
+Check modified files:
+
+```bash
+git status
+```
+
+Stage the changes:
+
+```bash
+git add tracker.py test_tracker.py README.md
+```
+
+Commit the changes:
+
+```bash
+git commit -m "test: add task tracker unit tests"
+```
+
+Push the changes to GitHub:
+
+```bash
+git push
+```
+
+## 9. Outcome
+
+This task demonstrates how to set up pytest, execute unit tests, validate expected behavior, identify errors, and manage source code changes using Git and GitHub.
+

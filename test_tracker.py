@@ -1,5 +1,4 @@
 
-
 import json
 import tempfile
 import unittest
@@ -131,6 +130,134 @@ class TestTaskManager(unittest.TestCase):
     def test_invalid_task_record_is_rejected(self) -> None:
         invalid_tasks = [
             {"id": 1, "title": "Python"}
+        ]
+
+        self.file_path.write_text(
+            json.dumps(invalid_tasks),
+            encoding="utf-8",
+        )
+
+        with pytest.raises(ValueError):
+            TaskManager(self.file_path)
+
+    # 15. Filter pending tasks
+    def test_filter_pending_tasks(self) -> None:
+        self.manager.add_task("Pending task")
+        task = self.manager.add_task("Completed task")
+        self.manager.complete_task(task["id"])
+
+        result = self.manager.filter_tasks("pending")
+
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["title"], "Pending task")
+
+    # 16. Filter completed tasks
+    def test_filter_completed_tasks(self) -> None:
+        task = self.manager.add_task("Completed task")
+        self.manager.complete_task(task["id"])
+        self.manager.add_task("Pending task")
+
+        result = self.manager.filter_tasks("completed")
+
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["title"], "Completed task")
+
+    # 17. Filter all tasks
+    def test_filter_all_tasks(self) -> None:
+        self.manager.add_task("Task one")
+        self.manager.add_task("Task two")
+
+        result = self.manager.filter_tasks("all")
+
+        self.assertEqual(len(result), 2)
+
+    # 18. Invalid filter status is rejected
+    def test_invalid_filter_status_is_rejected(self) -> None:
+        with pytest.raises(ValueError):
+            self.manager.filter_tasks("invalid")
+
+    # 19. Update a task title
+    def test_update_task(self) -> None:
+        task = self.manager.add_task("Old title")
+
+        self.manager.update_task(task["id"], "New title")
+
+        self.assertEqual(
+            self.manager.find_task(task["id"])["title"],
+            "New title",
+        )
+
+    # 20. Updated title is saved to JSON
+    def test_update_task_persists(self) -> None:
+        task = self.manager.add_task("Old title")
+
+        self.manager.update_task(task["id"], "New title")
+
+        reloaded = TaskManager(self.file_path)
+
+        self.assertEqual(
+            reloaded.find_task(task["id"])["title"],
+            "New title",
+        )
+
+    # 21. Empty updated title is rejected
+    def test_empty_updated_title_is_rejected(self) -> None:
+        task = self.manager.add_task("Python")
+
+        with pytest.raises(ValueError):
+            self.manager.update_task(task["id"], "")
+
+    # 22. Updating an unknown task ID is rejected
+    def test_update_unknown_task_id_is_rejected(self) -> None:
+        with pytest.raises(ValueError):
+            self.manager.update_task(999, "New title")
+
+    # 23. Listing tasks returns all tasks
+    def test_list_tasks(self) -> None:
+        self.manager.add_task("Task one")
+        self.manager.add_task("Task two")
+
+        result = self.manager.list_tasks()
+
+        self.assertEqual(len(result), 2)
+
+    # 24. Invalid task ID type is rejected
+    def test_invalid_task_id_type_is_rejected(self) -> None:
+        with pytest.raises(ValueError):
+            self.manager.delete_task(1.5)  # type: ignore[arg-type]
+
+    # 25. Invalid completed value in stored JSON is rejected
+    def test_invalid_completed_value_is_rejected(self) -> None:
+        invalid_tasks = [
+            {"id": 1, "title": "Python", "completed": "yes"}
+        ]
+
+        self.file_path.write_text(
+            json.dumps(invalid_tasks),
+            encoding="utf-8",
+        )
+
+        with pytest.raises(ValueError):
+            TaskManager(self.file_path)
+
+    # 26. Invalid stored task ID is rejected
+    def test_invalid_stored_task_id_is_rejected(self) -> None:
+        invalid_tasks = [
+            {"id": 0, "title": "Python", "completed": False}
+        ]
+
+        self.file_path.write_text(
+            json.dumps(invalid_tasks),
+            encoding="utf-8",
+        )
+
+        with pytest.raises(ValueError):
+            TaskManager(self.file_path)
+
+    # 27. Empty title in stored JSON is rejected
+    def test_empty_stored_title_is_rejected(self) -> None:
+        invalid_tasks = [
+            {"id": 1, "title": "   ", "completed": False}
         ]
 
         self.file_path.write_text(

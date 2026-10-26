@@ -1,0 +1,452 @@
+# Day 4 — Exceptions, Files, and Modules
+
+**Training Date:** Thursday, 15 October 2026  
+**Topic:** Exception Handling, File Operations, JSON, CSV, and Python Modules
+
+## 1. Objective
+
+The objective of Day 4 is to learn how to handle invalid inputs and runtime errors, read and write data to files, work with JSON and CSV formats, and organize Python code into reusable modules.
+
+These concepts help build reliable applications that can handle errors gracefully and store data permanently.
+
+## 2. Topics Covered
+
+- Errors and exceptions
+- `try`, `except`, `else`, and `finally`
+- Raising exceptions using `raise`
+- Input validation
+- Reading and writing text files
+- Working with JSON files
+- Reading and writing CSV files
+- Using `pathlib` for file paths
+- Creating and importing Python modules
+- Handling missing, empty, and malformed files
+
+## 3. Exception Handling
+
+An exception is an error condition that occurs while a program is running. Exception handling allows the program to respond to expected errors instead of terminating unexpectedly.
+
+### 3.1 Using `try` and `except`
+
+```python
+try:
+    number = int(input("Enter a number: "))
+    print("Number:", number)
+except ValueError:
+    print("Invalid input. Please enter a whole number.")
+```
+
+**Explanation:**
+
+- `try` contains the code that may raise an exception.
+- `except` handles a matching exception.
+- `ValueError` occurs when a value cannot be converted to the requested type, such as converting `"hello"` to an integer.
+
+### 3.2 Using `else` and `finally`
+
+```python
+try:
+    number = int(input("Enter a number: "))
+except ValueError:
+    print("Invalid number.")
+else:
+    print("You entered:", number)
+finally:
+    print("Program execution finished.")
+```
+
+- `else` runs when no exception occurs in the `try` block.
+- `finally` runs whether or not an exception occurs, making it useful for cleanup operations.
+
+### 3.3 Raising an Exception
+
+Use `raise` when your code detects an invalid condition.
+
+```python
+def calculate_age(age):
+    if age < 0:
+        raise ValueError("Age cannot be negative")
+
+    return age
+
+
+print(calculate_age(25))
+```
+
+Calling `calculate_age(-5)` raises a `ValueError`. The caller can catch it if recovery is required.
+
+### 3.4 Handling Division by Zero
+
+```python
+def divide(a, b):
+    if b == 0:
+        raise ValueError("The divisor cannot be zero")
+
+    return a / b
+
+
+try:
+    print(divide(10, 0))
+except ValueError as error:
+    print("Error:", error)
+```
+
+**Expected output:**
+
+```text
+Error: The divisor cannot be zero
+```
+
+## 4. Input Validation
+
+Input validation checks whether data meets the application's requirements before processing it.
+
+```python
+def validate_task_title(title):
+    if not isinstance(title, str):
+        raise TypeError("Task title must be a string")
+
+    if not title.strip():
+        raise ValueError("Task title cannot be empty")
+
+    return title.strip()
+
+
+try:
+    print(validate_task_title("  Learn Python  "))
+except (TypeError, ValueError) as error:
+    print("Validation error:", error)
+```
+
+**Expected output:**
+
+```text
+Learn Python
+```
+
+This function rejects non-string values and blank titles while removing unnecessary spaces from valid titles.
+
+**Important:** Catch only exceptions you can handle meaningfully. Avoid using a broad `except:` that hides unexpected programming errors.
+
+## 5. Text File Handling
+
+Text files store readable information such as notes, logs, and plain text.
+
+### 5.1 Writing to a Text File
+
+```python
+from pathlib import Path
+
+file_path = Path("notes.txt")
+
+with file_path.open("w", encoding="utf-8") as file:
+    file.write("Day 4: Exceptions and Files\n")
+    file.write("Learning Python file handling.\n")
+```
+
+The `"w"` mode creates a file if needed and overwrites an existing file.
+
+### 5.2 Reading a Text File
+
+```python
+from pathlib import Path
+
+file_path = Path("notes.txt")
+
+try:
+    with file_path.open("r", encoding="utf-8") as file:
+        content = file.read()
+        print(content)
+except FileNotFoundError:
+    print("The file does not exist.")
+```
+
+The `"r"` mode opens a file for reading.
+
+### 5.3 Appending to a File
+
+```python
+from pathlib import Path
+
+file_path = Path("notes.txt")
+
+with file_path.open("a", encoding="utf-8") as file:
+    file.write("Practiced exception handling.\n")
+```
+
+The `"a"` mode adds content to the end of an existing file without replacing its previous content.
+
+**Why use `with`?** It ensures the file is closed automatically after the block completes, including when an exception occurs.
+
+## 6. JSON File Handling
+
+JSON (JavaScript Object Notation) is a common format for storing structured data such as lists and dictionaries.
+
+Python provides the built-in `json` module.
+
+### 6.1 Writing JSON
+
+```python
+import json
+from pathlib import Path
+
+file_path = Path("tasks.json")
+
+tasks = [
+    {"id": 1, "title": "Learn Python", "status": "pending"},
+    {"id": 2, "title": "Practice functions", "status": "completed"}
+]
+
+with file_path.open("w", encoding="utf-8") as file:
+    json.dump(tasks, file, indent=4)
+```
+
+- `json.dump()` writes Python data to a JSON file.
+- `indent=4` formats the JSON to make it easier to read.
+
+### 6.2 Reading JSON
+
+```python
+import json
+from pathlib import Path
+
+file_path = Path("tasks.json")
+
+try:
+    with file_path.open("r", encoding="utf-8") as file:
+        tasks = json.load(file)
+
+    print(tasks)
+
+except FileNotFoundError:
+    print("Task file not found.")
+
+except json.JSONDecodeError:
+    print("Task file contains invalid JSON.")
+```
+
+- `json.load()` reads JSON data from a file and converts it into Python objects.
+- A missing file raises `FileNotFoundError`.
+- Malformed JSON raises `json.JSONDecodeError`.
+
+**Important:** These exceptions should be handled according to the application's recovery requirements. For example, a task tracker may initialize an empty list when the file is missing, but malformed data may need to be reported rather than silently overwritten.
+
+## 7. CSV File Handling
+
+CSV (Comma-Separated Values) is useful for tabular data such as reports, user records, and spreadsheets.
+
+Python provides the built-in `csv` module.
+
+### 7.1 Writing CSV
+
+```python
+import csv
+from pathlib import Path
+
+file_path = Path("students.csv")
+
+students = [
+    {"name": "Anudeep", "course": "Python", "score": 85},
+    {"name": "Rahul", "course": "SQL", "score": 90}
+]
+
+with file_path.open("w", newline="", encoding="utf-8") as file:
+    fieldnames = ["name", "course", "score"]
+    writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+    writer.writeheader()
+    writer.writerows(students)
+```
+
+### 7.2 Reading CSV
+
+```python
+import csv
+from pathlib import Path
+
+file_path = Path("students.csv")
+
+with file_path.open("r", newline="", encoding="utf-8") as file:
+    reader = csv.DictReader(file)
+
+    for row in reader:
+        print(row["name"], row["course"], row["score"])
+```
+
+**Expected output:**
+
+```text
+Anudeep Python 85
+Rahul SQL 90
+```
+
+CSV values are read as strings. Convert numeric fields to integers or floats when calculations are needed.
+
+## 8. Difference Between Text, JSON, and CSV
+
+| Format | Best use | Python module |
+|---|---|---|
+| TXT | Plain text and notes | Built-in file operations |
+| JSON | Nested structured data and lists of dictionaries | `json` |
+| CSV | Rows and columns of tabular data | `csv` |
+
+For the Task Tracker project, JSON is suitable for storing a list of task dictionaries. CSV can be useful for exporting tasks into a spreadsheet.
+
+## 9. Python Modules
+
+A module is a Python file containing reusable code, such as functions, classes, and variables.
+
+### 9.1 Creating a Module
+
+Create a file named `calculator.py`:
+
+```python
+def add(a, b):
+    return a + b
+
+
+def subtract(a, b):
+    return a - b
+```
+
+### 9.2 Importing a Module
+
+Create another file named `main.py`:
+
+```python
+from calculator import add, subtract
+
+print(add(10, 5))
+print(subtract(10, 5))
+```
+
+**Expected output:**
+
+```text
+15
+5
+```
+
+This separates the calculation logic from the program that uses it.
+
+## 10. Recommended Project Structure
+
+```text
+python-training/
+└── Day-4-Exceptions-Files/
+    ├── README.md
+    ├── main.py
+    ├── file_operations.py
+    ├── validation.py
+    ├── tasks.json
+    └── students.csv
+```
+
+- `main.py` — Entry point for running the application.
+- `file_operations.py` — Functions for reading and writing files.
+- `validation.py` — Functions for validating input.
+- `tasks.json` — Sample structured task data.
+- `students.csv` — Sample tabular data.
+
+Keep sample data separate from application code. Do not commit passwords, tokens, or other secrets.
+
+## 11. Applying Day 4 to the Task Tracker
+
+The Day 4 concepts are directly useful in the Command-Line Task Tracker project.
+
+Examples:
+
+- Validate task titles and reject blank input.
+- Handle invalid task IDs with meaningful exceptions.
+- Read tasks from `tasks.json`.
+- Save task changes using `json.dump()`.
+- Handle missing or malformed JSON files.
+- Split task logic and file operations into separate modules.
+- Use isolated temporary files when testing file operations.
+
+Example:
+
+```python
+import json
+from pathlib import Path
+
+
+def load_tasks(file_path: Path) -> list:
+    try:
+        with file_path.open("r", encoding="utf-8") as file:
+            tasks = json.load(file)
+
+        if not isinstance(tasks, list):
+            raise ValueError("Task data must be a list")
+
+        return tasks
+
+    except FileNotFoundError:
+        return []
+
+    except json.JSONDecodeError as error:
+        raise ValueError("Task file contains invalid JSON") from error
+```
+
+This example returns an empty list when the file is missing and reports malformed JSON through a `ValueError`. In a production application, you may also validate the structure of each task before using it.
+
+## 12. Programming Exercises
+
+1. **Safe integer input:** Ask the user to enter an integer and handle invalid input.
+2. **Division calculator:** Handle division by zero using exception handling.
+3. **Title validation:** Reject blank task titles and trim unnecessary spaces.
+4. **Text file operations:** Write, read, and append notes to a text file.
+5. **JSON storage:** Store a list of tasks in JSON and read it back.
+6. **Malformed JSON:** Create an invalid JSON file and handle the decoding error.
+7. **CSV records:** Write student records to CSV and read them back.
+8. **Create a module:** Move two or more functions into a separate Python file and import them.
+9. **Missing file recovery:** Test how the program behaves when its data file does not exist.
+10. **Task Tracker integration:** Separate validation and file operations from the main application logic.
+
+## 13. How to Run the Exercises
+
+1. Open your Python training project in VS Code.
+2. Create a file named `day4_files_exceptions.py`.
+3. Add the code for the exercises.
+4. Save the file using `Ctrl + S`.
+5. Open the integrated terminal.
+6. Run:
+
+```bash
+python day4_files_exceptions.py
+```
+
+7. Verify the output and inspect any files created.
+8. Test missing files, malformed JSON, and invalid inputs.
+9. Confirm that valid data is saved and loaded correctly.
+
+The `json`, `csv`, and `pathlib` modules used in these examples are included with Python; they do not require separate pip installations.
+
+## 14. Verification Checklist
+
+- [ ] Practiced `try`, `except`, `else`, and `finally`.
+- [ ] Raised exceptions using `raise`.
+- [ ] Validated user input.
+- [ ] Read and wrote text files using UTF-8 encoding.
+- [ ] Read and wrote JSON data.
+- [ ] Read and wrote CSV data.
+- [ ] Handled missing files and malformed JSON.
+- [ ] Created and imported custom Python modules.
+- [ ] Applied file handling to the Task Tracker.
+- [ ] Tested valid and invalid scenarios.
+- [ ] Documented setup and recovery behavior.
+- [ ] Committed the work to GitHub.
+
+## 15. Outcomes
+
+After completing Day 4, I should be able to:
+
+- Handle common runtime errors gracefully.
+- Validate inputs and raise meaningful exceptions.
+- Read, write, and append to files.
+- Store and retrieve structured data using JSON.
+- Process tabular records using CSV.
+- Organize Python programs into reusable modules.
+- Explain how an application responds to missing or corrupted data.
+- Apply these concepts to the Command-Line Task Tracker.
+

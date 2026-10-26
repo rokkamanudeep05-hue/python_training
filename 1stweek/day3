@@ -1,0 +1,244 @@
+# Day 3 — Control Flow and Functions
+
+**Training Date:** Wednesday, 14 October 2026  
+**Topic:** Conditional Statements, Loops, Functions, Parameters, Return Values, and Comprehensions
+
+## 1. Objective
+
+The objective of Day 3 is to understand how to control the execution flow of a Python program using conditional statements and loops. Learn to create reusable functions, pass parameters, return values, and use comprehensions to write concise and readable code.
+
+## 2. Topics Covered
+
+- Conditional statements: `if`, `elif`, `else`
+- Loops: `for` and `while`
+- Loop control statements: `break`, `continue`, `pass`
+- Functions using `def`
+- Parameters and arguments
+- Return values
+- Local and global variables
+- List comprehensions
+- Dictionary and set comprehensions
+- Breaking problems into smaller reusable functions
+
+## 3. Conditional Statements
+
+Conditional statements execute code based on whether a condition is true or false.
+
+### Example: `if`, `elif`, and `else`
+
+```python
+marks = 75
+
+if marks >= 90:
+    print("Grade A")
+elif marks >= 70:
+    print("Grade B")
+elif marks >= 50:
+    print("Grade C")
+else:
+    print("Needs improvement")
+```
+
+**Output:**
+
+```text
+Grade B
+```
+
+**Explanation:**
+- `if` checks the first condition.
+- `elif` checks another condition if the earlier condition is false.
+- `else` executes when none of the previous conditions are true.
+
+### Exercise 1
+
+Write a program to check whether a number is positive, negative, or zero.
+
+## 4. Loops
+
+Loops repeat a block of code.
+
+### 4.1 For Loop
+
+A `for` loop iterates over a sequence or other iterable.
+
+```python
+for number in range(1, 6):
+    print(number)
+```
+
+**Output:**
+
+```text
+1
+2
+3
+4
+5
+```
+
+### 4.2 While Loop
+
+A `while` loop repeats while its condition remains true.
+
+```python
+count = 1
+
+while count <= 5:
+    print(count)
+    count += 1
+```
+
+### 4.3 Loop Control Statements
+
+```python
+for number in range(1, 6):
+    if number == 3:
+        continue
+    if number == 5:
+        break
+    print(number)
+```
+
+**Output:**
+
+```text
+1
+2
+4
+```
+
+- `break` terminates the loop.
+- `continue` skips the current iteration.
+- `pass` is a placeholder that performs no operation.
+
+### Exercise 2
+
+Write a program to print all even numbers between 1 and 20.
+
+## 5. Functions
+
+A function is a reusable block of code that performs a specific task.
+
+### Example: Creating a Function
+
+```python
+def greet():
+    print("Welcome to Python training")
+
+
+greet()
+```
+
+The `def` keyword defines a function. Calling `greet()` executes its body.
+
+### 5.1 Parameters and Arguments
+
+Parameters are variables defined in a function declaration. Arguments are the actual values passed when calling the function.
+
+```python
+def greet_user(name):
+    print(f"Hello, {name}!")
+
+
+greet_user("Anudeep")
+```
+
+**Output:**
+
+```text
+Hello, Anudeep!
+```
+
+Here, `name` is the parameter and `"Anudeep"` is the argument.
+
+### 5.2 Return Values
+
+The `return` statement sends a result back to the caller.
+
+```python
+def add_numbers(a, b):
+    return a + b
+
+
+result = add_numbers(10, 20)
+print(result)
+```
+
+**Output:**
+
+```text
+30
+```
+
+**Difference between `print()` and `return`:**
+
+- `print()` displays information on the screen.
+- `return` provides a value that other code can use.
+
+### Exercise 3
+
+Create functions to calculate the sum, difference, product, and quotient of two numbers. Handle division by zero appropriately.
+
+## 6. Default and Keyword Arguments
+
+Functions can define default parameter values and accept keyword arguments.
+
+```python
+def introduce(name, course="Python"):
+    return f"{name} is learning {course}"
+
+
+print(introduce("Anudeep"))
+print(introduce("Anudeep", course="Core Python"))
+```
+
+Default values are used when an argument is omitted. Keyword arguments identify parameters by name.
+
+## 7. Breaking Problems into Reusable Functions
+
+A large problem is easier to understand, test, and maintain when it is divided into smaller functions.
+
+### Example: Student Grade Calculator
+
+```python
+def calculate_average(marks):
+    if not marks:
+        raise ValueError("Marks cannot be empty")
+
+    return sum(marks) / len(marks)
+
+
+def calculate_grade(average):
+    if average >= 90:
+        return "A"
+    elif average >= 70:
+        return "B"
+    elif average >= 50:
+        return "C"
+    else:
+        return "Needs improvement"
+
+
+def main():
+    marks = [80, 75, 90]
+
+    average = calculate_average(marks)
+    grade = calculate_grade(average)
+
+    print(f"Average: {average:.2f}")
+    print(f"Grade: {grade}")
+
+
+if __name__ == "__main__":
+    main()
+```
+
+**Expected output:**
+
+```text
+Average: 81.67
+Grade: B
+```
+
+
