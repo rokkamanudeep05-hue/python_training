@@ -1,8 +1,15 @@
 
-from tracker_manager import TaskManager
 
-def main():
-    manager = TaskManager()
+
+from tracker import TaskManager
+
+
+def main() -> None:
+    try:
+        manager = TaskManager()
+    except (ValueError, OSError) as error:
+        print(f"Unable to load tasks: {error}")
+        return
 
     while True:
         print("\n--- Python Task Tracker ---")
@@ -42,11 +49,11 @@ def main():
 
         except ValueError as error:
             print(f"Error: {error}")
-
         except OSError as error:
             print(f"File error: {error}")
 
 
 if __name__ == "__main__":
     main()
+
 

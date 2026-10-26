@@ -33,7 +33,7 @@ Run the Project
 
  ## week 2 
 
- ## day1
+ ## day1 -- monday 19/10/2026
 # Python Task Tracker
 
 A command-line task tracker using
@@ -77,7 +77,7 @@ No external packages are required.
 5. Enter an unknown task ID and verify an error is reported.
 6. Run all unit tests and verify they pass.
 
-## day 2 
+## day 2 -- tuesday 20/10/2026
 # Python Task Tracker
 
 ## Overview
@@ -120,3 +120,50 @@ Tests cover task operations, file persistence, and invalid inputs.
 - Unit testing
 
 
+## day 3 -- 21/10/2026
+
+
+# Python Task Tracker
+
+## Overview
+A command-line application to add, view, complete, and delete tasks.
+Tasks are stored in a JSON file.
+
+## Files
+- `tracker.py` - TaskManager class and task operations
+- `main_json.py` - Command-line menu
+- `test_tracker.py` - Unit tests
+- `tasks.json` - Persistent task data
+
+## Requirements
+- Python 3.15
+
+
+## Run the Application
+```bash
+python main_json.py
+```
+
+## Run Tests
+```bash
+python -m test_tracker.py
+
+```
+
+## Validation and Error Handling
+- Rejects empty task titles.
+- Validates task IDs and stored task records.
+- Handles malformed JSON with a clear error.
+- Handles missing files by starting with an empty task list.
+- Reports file access errors instead of silently ignoring them.
+
+## Persistence Design
+Data is written to a temporary file before replacing the existing
+JSON file. In-memory changes are applied only after saving succeeds.
+
+## Known Limitations
+- Tasks are stored locally in a JSON file.
+- There is no multi-user access or concurrent-write protection.
+- Malformed JSON is reported, but automatic data recovery is not supported.
+- Temporary-file replacement reduces the risk of partial writes but
+  cannot protect against every hardware or filesystem failure.
