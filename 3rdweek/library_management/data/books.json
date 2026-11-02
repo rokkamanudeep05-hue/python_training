@@ -1,0 +1,37 @@
+[
+    {
+        "id": "1",
+        "title": "introduction python",
+        "author": "john",
+        "year": 2000,
+        "available": true
+    },
+    {
+        "id": "2",
+        "title": "introduction oops in python",
+        "author": "john",
+        "year": 2001,
+        "available": false
+    },
+    {
+        "id": "3",
+        "title": "data structures",
+        "author": "mark",
+        "year": 2020,
+        "available": true
+    },
+    {
+        "id": "4",
+        "title": "java programming",
+        "author": "james",
+        "year": 2019,
+        "available": true
+    },
+    {
+        "id": "5",
+        "title": "computer networking",
+        "author": "thomas",
+        "year": 2001,
+        "available": true
+    }
+]
